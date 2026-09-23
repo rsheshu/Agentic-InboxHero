@@ -1,0 +1,42 @@
+[
+    {
+        "id": "m001",
+        "group": "escalate",
+        "reason": "Contains or requests a sensitive staging credential; do not redistribute it."
+    },
+    {
+        "id": "m003",
+        "group": "escalate",
+        "reason": "Contains or requests a sensitive staging credential; do not redistribute it."
+    },
+    {
+        "id": "m008",
+        "group": "escalate",
+        "reason": "Contains or requests a sensitive staging credential; do not redistribute it."
+    },
+    {
+        "id": "m026",
+        "group": "delegate",
+        "reason": "Thread ID matches a known action that requires Priya to be looped in before any response."
+    },
+    {
+        "id": "m027",
+        "group": "delegate",
+        "reason": "Thread ID matches a known action that requires Priya to be looped in before any response."
+    },
+    {
+        "id": "m028",
+        "group": "delegate",
+        "reason": "Thread ID matches a known action that requires Priya to be looped in before any response."
+    },
+    {
+        "id": "m080",
+        "group": "archive",
+        "reason": "Automated notification, receipt, newsletter, or informational message  known noise action; no owner review needed."
+    },
+    {
+        "id": "m082",
+        "group": "archive",
+        "reason": "Automated notification, receipt, newsletter, or informational message  known noise action; no owner review needed."
+    }
+]

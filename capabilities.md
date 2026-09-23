@@ -11,7 +11,7 @@ This project processes an inbox through a lightweight triage pipeline that tags 
 Generates outbox for the processed messages and dashboard.html for the stats of the messages processed.
 - **output.json:** for the Grouping results
 - **routing.json:** Deterministic routing
-- **decision_log.jsonl:** The logger evidence for the runs
+- **outbox/decision_log.jsonl:** The logger evidence for the runs
 - **outbox/mxxx:** The processed messages
 
 ## Design choices

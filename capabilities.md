@@ -8,6 +8,11 @@
 ## The system, in one paragraph
 
 This project processes an inbox through a lightweight triage pipeline that tags messages, routes them to reply/archive/defer/delegate/escalate decisions, and applies saved user preferences before any irreversible action. The system uses a crew.ai-based actor pattern for drafting and action-gating while keeping retrieval anchored to message threads, so the decision logic stays grounded in the actual conversation context.
+Generates outbox for the processed messages and dashboard.html for the stats of the messages processed.
+- **output.json:** for the Grouping results
+- **routing.json:** Deterministic routing
+- **decision_log.jsonl:** The logger evidence for the runs
+- **outbox/mxxx:** The processed messages
 
 ## Design choices
 

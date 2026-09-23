@@ -1,0 +1,104 @@
+{
+  "student": "Sheshachalam Ratnala, cert-aai-2026-06-0019",
+  "repo": "https://github.com/ada-example/inboxhero",
+  "system": {
+    "framework": "crew.ai",
+    "model": "Developed against a local llama3.2 via Ollama to avoid rate limits.",
+    "messages_processed": 10,
+    "rule_handled": 11,
+    "dispositions": [
+      "reply",
+      "archive",
+      "defer",
+      "delegate",
+      "escalate"
+    ],
+    "retrieval": "thread-walk",
+    "irreversible": [
+      "send",
+      "delete"
+    ],
+    "reversible": [
+      "draft",
+      "label",
+      "archive",
+      "defer"
+    ],
+    "gate": "both",
+    "preference_demo": "do_not_accept_meetings_before=11:00 and always_cc=priya@paperjet.io"
+  },
+  "capabilities": [
+    {
+      "id": "input",
+      "name": "pre-processing and tagging",
+      "tier": "A",
+      "claim": "Process inbox and extracts message to tag for the actionable group",
+      "command": "python InboxHero.py --input \"inbox.json\"",
+      "observable": "Groups them in \"{reply,archive,defer,delegate,escalate}\"",
+      "evidence": "output.json"
+    },
+    {
+      "id": "routing",
+      "name": "Determinsitc routing",
+      "tier": "B",
+      "claim": "Reads a thread and extracts message to tag for the routing action",
+      "command": "python InboxHero.py --routing \"inbox.json\"",
+      "observable": "Done with appropirate disposition",
+      "evidence": "routing.json"
+    },    
+    {
+      "id": "gated-action",
+      "name": "Follow-up tracking for unanswered sent mail",
+      "tier": "C",
+      "claim": "Execute to complete the actions after dry run ",
+      "command": "python InboxHero.py --gated-action \"inbox.json\"",
+      "observable": "logs each message action in trace.json",
+      "evidence": "Writes in the outbox directory"
+    },
+    {
+      "id": "dry-run",
+      "name": "dry run the pipeline by the above processors input->routing->gated-action",
+      "tier": "C",
+      "claim": "",
+      "command": "python InboxHero.py --dry-run \"inbox.json\"",
+      "observable": "Routes a meeting request to a dry-run or preference-preserving action rather than sending it directly.",
+      "evidence": "Prepares and agentic email by checking all the emails in the thread with latest thread to be replied"
+    },    
+    {
+      "id": "dashboard",
+      "name": "Execute the whole pipeline for automated inbox processing",
+      "tier": "C",
+      "claim": "Generates the dashboard for the processed message how many proceessed ",
+      "command": " python InboxHero.py --dashboard \"dashboard.html\" ",
+      "observable": "Execute the whole InboxHero Pipeline and make the Dashboard for processed messages",
+      "evidence": "decision_log.jsonl"
+    },    
+    {
+      "id": "C1",
+      "name": "Unread mail from a sender",
+      "tier": "A",
+      "claim": "Lists unread mail from a specific sender so the user can quickly assess incoming action items without scanning the whole inbox.",
+      "command": " python InboxHero.py --cap \"AC1\" ",
+      "observable": "Returns only the unread mail from that sender, filtering out read messages and other senders.",
+      "evidence": "List all the unreadmails from specific sender"
+    },
+    {
+      "id": "C2",
+      "name": "Unreplied emails",
+      "tier": "B",
+      "claim": "Find messages that were sent and never answered after the requested wait period and draft a chase for each.",
+      "command": " python InboxHero.py --cap \"BC1\" ",
+      "observable": "Routes a meeting request to a dry-run or preference-preserving action rather than sending it directly.",
+      "evidence": "Lists all the emails with the waiting time"
+    },
+    {
+      "id": "C3",
+      "name": "Capability - Commitments and Deadline with auto-reply subject",
+      "tier": "C",
+      "claim": "Extract concrete commitments and deadlines from message threads.",
+      "command": " python InboxHero.py --cap \"CC1\" ",
+      "observable": "",
+      "evidence": "prints the commitment list for sam@paperjet.io and generates the subject by looking in to the respective threads"
+    }    
+  ]
+}

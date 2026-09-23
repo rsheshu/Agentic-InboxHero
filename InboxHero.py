@@ -168,20 +168,25 @@ def extract_commitments_and_deadlines(messages: list[dict[str, Any]]) -> list[di
     if not messages:
         return []
 
+    outbox = _process_inbox(messages)
+    routed = rule_router(ingest_and_tag(messages,outbox))
+    routed_messages =[asdict(m) for m in routed]
     prompt = (
-        "Review the thread messages and extract every concrete commitment and deadline for sam@paperjet.io into a JSON list. "
-        "Each item must include: message_id, owner, commitment, deadline. "
+        "Review the thread messages and extract every concrete commitments and deadline for sam@paperjet.io into a JSON list. "
+        "Each item must include: message_id, to, commitments, deadline. "
         "Use only facts stated in the messages.\n\n"
-        f"Messages:\n{json.dumps(messages, ensure_ascii=False, indent=2)}"
+        f"Messages:\n{json.dumps(routed_messages, ensure_ascii=False, indent=2)}"
     )
-    payload = capability(prompt, "Return a JSON list of objects with keys: message_id, owner, commitment, deadline and action."
-                                  "Return JSON with keys: thread_id, summary, reply,subject as per preferences if any for the message which is disposition to route to draft email")
-    if isinstance(payload, list):
-        return payload
-    if isinstance(payload, dict):
-        items = payload.get("items") if isinstance(payload.get("items"), list) else payload.get("commitments")
-        if isinstance(items, list):
-            return items
+    try:
+        payload = capability(prompt, "Return a JSON list of objects with keys: message_id, to, commitments, deadline and action.")
+        if isinstance(payload, list):
+            return payload
+        if isinstance(payload, dict):
+            items = payload.get("items") if isinstance(payload.get("items"), list) else payload.get("commitments")
+            if isinstance(items, list):
+                return items
+    except Exception:
+        return {"error": "Capability execution failed.", "prompt": prompt}      
 
 def summarize_thread_to_open_question(messages: list[dict[str, Any]]) -> dict[str, Any]:
     """Summarize a thread to its status and the decisive open question."""
@@ -616,12 +621,20 @@ def write_outbox_messages(
     return manifest
 
 def run_pipeline(inbox_path: str | Path, preferences_path: str | Path | None = None) -> dict[str, Any]:
+
+    # Process the inbox json and preferences
     inbox_file = Path(inbox_path)
     prefs_file = Path(preferences_path) if preferences_path is not None else inbox_file.parent / "state" / "preferences.json"
     preferences = load_preferences(prefs_file)
+
+    # Grouping the messages
     outbox = _process_inbox(load_inbox(inbox_file))  # for manifest counts, even if not used
     print("Processed the inbox message")
+
+    # routing  the messages  for disposition
     routed = rule_router(ingest_and_tag(load_inbox(inbox_file),outbox))
+
+    # Gated action
     gated = action_gate(retrieve_and_draft(load_inbox(inbox_file),routed, preferences), preferences)
     if preferences.get("preserve_preferences_across_restarts"):
         persist_preferences(prefs_file, {
@@ -630,6 +643,7 @@ def run_pipeline(inbox_path: str | Path, preferences_path: str | Path | None = N
             "preserve_preferences_across_restarts": True,
         })
 
+    # Build the traces from persisted messages
     outputs = build_outputs(gated)
     return {
         "preferences": preferences,
@@ -691,14 +705,17 @@ def main() -> None:
         return
 
     if args.cap == "AC1":
+        print("Lists all the mail from the sender : priya@paperjet.io")
         capability_execution("A")
         return
 
     if args.cap == "BC1":
+        print("Lists all the mails for which responses are expected from last 3+ i..e no responses from 3+ days")        
         capability_execution("B")
         return
         
     if args.cap == "CC1":
+        print("Extract the commitments and deadlines for sam@paperjet.io from the messages and list it provide a draft reply")        
         capability_execution("C")
         return
     

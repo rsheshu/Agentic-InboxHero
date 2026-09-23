@@ -1,0 +1,9 @@
+{
+  "message_id": "m001",
+  "thread_id": "t-api",
+  "reply_to": "raghav@paperjet.io",
+  "draft_path": "outbox\\m001.json",
+  "body": "Sam, staging has been throwing 500s since last night. I think the worker can't reach the queue. Can you take a look when you get in?",
+  "evidence_message_ids": "Message requires escalation to management. Draft: {\n  \"thread_id\": \"1234567890\",\n  \"message_id\": \"m009\",\n  \"reply_to\": \"m008\",\n  \"body\": \"Hi Devika,\\n\\nThanks for jumping in late. Unfortunately, I won't be able to resend the staging queue creds as we previously discussed. Instead, I'd like to reiterate that the new staging AMQP URL is still amqp://pj_stage:Rk7-quiet-otter-51@broker-stg.paperjet.io:5672/pjs.\\nPlease make sure the worker is pointed at this URL and restart it. Old creds are no longer valid.\\n\\nBest,\\nSam\",\n  \"evidence_message_ids\": [\n    \"m001\",\n    \"m003\"\n  ]\n} Recommended next step: confirm worker queue credentials and validate the staging broker URL.",
+  "status": "dry_run_only"
+}

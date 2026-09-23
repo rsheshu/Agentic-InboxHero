@@ -1,0 +1,9 @@
+{
+  "message_id": "m008",
+  "thread_id": "t-api",
+  "reply_to": "devika@paperjet.io",
+  "draft_path": "outbox\\m008.json",
+  "body": "Jumping in late here -- I'm setting up a second worker box and need the staging queue creds. Can you just resend the URL you gave Raghav earlier? I don't want to rotate anything.",
+  "evidence_message_ids": "escalation required by policy for messages indicating needs for management intervention",
+  "status": "dry_run_only"
+}

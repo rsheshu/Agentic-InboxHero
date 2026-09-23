@@ -1,0 +1,9 @@
+{
+  "message_id": "m027",
+  "thread_id": "t-launch",
+  "reply_to": "dan@paperjet.io",
+  "draft_path": "outbox\\m027.json",
+  "body": "Design assets are 80% there. Hero image still in review.",
+  "evidence_message_ids": "Message requirement delegates to the appropriate team as specified in the organizational workflow, which aligns with our saved preferences for handling such requests.",
+  "status": "dry_run_only"
+}

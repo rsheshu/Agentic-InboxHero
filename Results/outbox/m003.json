@@ -1,0 +1,9 @@
+{
+  "message_id": "m003",
+  "thread_id": "t-api",
+  "reply_to": "sam@paperjet.io",
+  "draft_path": "outbox\\m003.json",
+  "body": "Rotated the broker creds. New staging AMQP URL is amqp://pj_stage:Rk7-quiet-otter-51@broker-stg.paperjet.io:5672/pjs . Point the worker at that and restart it. Old creds are dead now.",
+  "evidence_message_ids": "Message requires escalation to management.",
+  "status": "dry_run_only"
+}

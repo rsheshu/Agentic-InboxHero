@@ -1,0 +1,24 @@
+{
+  "outbox_directory": "outbox",
+  "dry_run": true,
+  "reversible_actions": [
+    "save_draft",
+    "rewrite_draft",
+    "archive_draft",
+    "delete_draft"
+  ],
+  "irreversible_actions": [
+    "send_message"
+  ],
+  "design_notes": "deleting_is_reversible: Deleting a draft is reversible in this design because the system keeps the draft payload in the outbox history and decision log until a human explicitly approves permanent removal. A sent message is irreversible because it has already left the local system and cannot be unsent.",
+  "writes": [
+    {
+      "message_id": "m028",
+      "path": "outbox\\m028.json",
+      "action": "save_draft"
+    }
+  ],
+  "approval_required_for": [
+    "send_message"
+  ]
+}

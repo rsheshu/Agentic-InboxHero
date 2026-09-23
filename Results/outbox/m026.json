@@ -1,0 +1,9 @@
+{
+  "message_id": "m026",
+  "thread_id": "t-launch",
+  "reply_to": "priya@paperjet.io",
+  "draft_path": "outbox\\m026.json",
+  "body": "Kicking off the launch thread. Target is the 20th. Let's use this thread for everything so it stays in one place.",
+  "evidence_message_ids": "Message requires delegation to appropriate team.",
+  "status": "dry_run_only"
+}

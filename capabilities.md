@@ -44,7 +44,7 @@ Generates outbox for the processed messages and dashboard.html for the stats of 
 - **Observable:** Groups messages into the categories `reply`, `archive`, `defer`, `delegate`, and `escalate`.
 - **Evidence:** `output.json`
 
-### routing — Determinsitc routing
+### routing — Deterministic routing
 - **Tier:** B
 - **Claim:** Reads a thread and extracts the routing action that best matches the message context.
 - **Command:** `python InboxHero.py --routing "inbox.json"`
